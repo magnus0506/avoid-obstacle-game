@@ -9,10 +9,9 @@ import com.obstacleavoid.util.ViewportUtils;
 
 public class GameScreen implements Screen {
 
-    private static final Logger log = new Logger(ViewportUtils.class.getName(), Logger.DEBUG);
 
     private final ObstacleAvoidGame game;
-    private AssetManager assetManager;
+    private final AssetManager assetManager;
     private GameController controller;
     private GameRenderer renderer;
 
@@ -23,6 +22,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        assetManager.load(AssetDescriptors.FONT);
+        assetManager.finishLoading();
+
         controller = new GameController();
         renderer = new GameRenderer(assetManager, controller);
     }

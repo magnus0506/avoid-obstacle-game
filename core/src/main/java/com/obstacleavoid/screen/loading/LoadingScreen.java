@@ -1,7 +1,10 @@
 package com.obstacleavoid.screen.loading;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.BitmapFontLoader;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -10,6 +13,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.obstacleavoid.ObstacleAvoidGame;
 import com.obstacleavoid.assets.AssetDescriptors;
 import com.obstacleavoid.config.GameConfig;
+import com.obstacleavoid.screen.game.GameController;
+import com.obstacleavoid.screen.game.GameRenderer;
 import com.obstacleavoid.screen.game.GameScreen;
 import com.obstacleavoid.util.GdxUtils;
 
@@ -29,6 +34,8 @@ public class LoadingScreen extends ScreenAdapter {
 
     private ObstacleAvoidGame game;
     private AssetManager assetManager;
+    private GameController controller;
+    private GameRenderer gameRenderer;
 
     private BitmapFont font;
 
@@ -36,7 +43,7 @@ public class LoadingScreen extends ScreenAdapter {
     // -- constructor --
     public LoadingScreen(ObstacleAvoidGame game) {
         this.game = game;
-        this.assetManager = game.getAssetManager(); ;
+        this.assetManager = game.getAssetManager();
     }
 
     // -- public methods --
@@ -46,9 +53,13 @@ public class LoadingScreen extends ScreenAdapter {
         camera = new OrthographicCamera();
         viewport = new FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT, camera);
         renderer = new ShapeRenderer();
+        font = new BitmapFont(Gdx.files.internal("fonts/oswald-32.fnt"), false);
+        assetManager = new AssetManager();
 
-        assetManager.load(AssetDescriptors.FONT);
+        assetManager.load("fonts/oswald-32.fnt", BitmapFont.class);
         assetManager.load(AssetDescriptors.GAMEPLAY);
+
+
 
     }
 
@@ -80,12 +91,13 @@ public class LoadingScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         renderer.dispose();
+        assetManager.dispose();
     }
 
     // -- private methods --
 
     private void update(float delta){
-        waitMillis(400);
+        waitMillis(100);
 
         progress = assetManager.getProgress();
 

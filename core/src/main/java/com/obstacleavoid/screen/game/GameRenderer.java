@@ -68,15 +68,16 @@ public class GameRenderer implements Disposable {
         hudViewport = new FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT, hudCamera);
         renderer = new ShapeRenderer();
         batch = new SpriteBatch();
+        font = assetManager.get(AssetDescriptors.FONT);
 
         debugCameraController = new DebugCameraController();
         debugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y);
 
         assetManager.load(AssetDescriptors.GAMEPLAY);
-        assetManager.load(AssetDescriptors.FONT);
+//        assetManager.load(AssetDescriptors.FONT);
+        assetManager.load("fonts/oswald-32.fnt", BitmapFont.class);
         assetManager.finishLoading();
         TextureAtlas atlas = assetManager.get(ATLAS);
-        font = assetManager.get(FONT);
 
 
         playerRegion = atlas.findRegion(RegionNames.PLAYER);

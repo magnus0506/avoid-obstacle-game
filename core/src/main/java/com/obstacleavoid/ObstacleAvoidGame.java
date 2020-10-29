@@ -19,7 +19,7 @@ public class ObstacleAvoidGame extends Game {
 		assetManager = new AssetManager();
 		assetManager.getLogger().setLevel(Logger.ERROR);
 
-		setScreen(new GameScreen(this));
+		setScreen(new LoadingScreen(this));
 	}
 
 	@Override
