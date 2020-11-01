@@ -6,43 +6,42 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Logger;
-import com.obstacleavoid.assets.AssetDescriptors;
-import com.obstacleavoid.screen.game.GameScreen;
 import com.obstacleavoid.screen.loading.LoadingScreen;
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
+/**
+ * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
+ */
 public class ObstacleAvoidGame extends Game {
 
-	private AssetManager assetManager;
-	private SpriteBatch batch;
+    private AssetManager assetManager;
+    private SpriteBatch batch;
 
-	@SuppressWarnings("LibGDXLogLevel")
-	@Override
-	public void create() {
-		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+    @SuppressWarnings("LibGDXLogLevel")
+    @Override
+    public void create() {
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
 
+        assetManager = new AssetManager();
 
-		assetManager = new AssetManager();
+        assetManager.getLogger().setLevel(Logger.DEBUG);
 
-		assetManager.getLogger().setLevel(Logger.DEBUG);
+        batch = new SpriteBatch();
 
-		batch = new SpriteBatch();
+        setScreen(new LoadingScreen(this));
+    }
 
-		setScreen(new LoadingScreen(this));
-	}
+    @Override
+    public void dispose() {
+        assetManager.dispose();
+        batch.dispose();
+    }
 
-	@Override
-	public void dispose() {
-		assetManager.dispose();
-		batch.dispose();
-	}
+    public AssetManager getAssetManager() {
+        return assetManager;
+    }
 
-	public AssetManager getAssetManager() {
-		return assetManager;
-	}
-
-	public SpriteBatch getBatch() {
-		return batch;
-	}
+    public SpriteBatch getBatch() {
+        return batch;
+    }
 }

@@ -105,7 +105,7 @@ public class OptionsScreen extends MenuScreenBase {
         }
     }
 
-    private static CheckBox checkBox(String text, Skin skin){
+    private static CheckBox checkBox(String text, Skin skin) {
         CheckBox checkBox = new CheckBox(text, skin);
         checkBox.left().pad(10);
         checkBox.getLabelCell().pad(8);

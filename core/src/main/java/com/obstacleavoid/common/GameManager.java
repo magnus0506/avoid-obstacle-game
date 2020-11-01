@@ -14,7 +14,7 @@ public class GameManager {
 
     private Preferences PREFS;
     private int highScore;
-    private DifficultyLevel difficultyLevel = DifficultyLevel.MEDIUM;
+    private DifficultyLevel difficultyLevel;
 
 
     private GameManager() {

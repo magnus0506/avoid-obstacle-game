@@ -11,26 +11,26 @@ public class ViewportUtils {
 
     private static final int DEFAULT_CELL_SIZE = 1;
 
-    public static void drawGrid(Viewport viewport, ShapeRenderer renderer){
-        drawGrid(viewport,renderer, DEFAULT_CELL_SIZE);
+    public static void drawGrid(Viewport viewport, ShapeRenderer renderer) {
+        drawGrid(viewport, renderer, DEFAULT_CELL_SIZE);
     }
 
-    public static void drawGrid(Viewport viewport, ShapeRenderer renderer, int cellSize){
-        if(viewport == null){
+    public static void drawGrid(Viewport viewport, ShapeRenderer renderer, int cellSize) {
+        if (viewport == null) {
             throw new IllegalArgumentException(("viewport param is required"));
         }
 
-        if(renderer == null){
+        if (renderer == null) {
             throw new IllegalArgumentException(("renderer param is required"));
         }
 
-        if(cellSize < DEFAULT_CELL_SIZE){
+        if (cellSize < DEFAULT_CELL_SIZE) {
             cellSize = DEFAULT_CELL_SIZE;
         }
 
         Color color = new Color(renderer.getColor());
 
-        int worldWidth =  (int) viewport.getWorldWidth();
+        int worldWidth = (int) viewport.getWorldWidth();
         int worldHeight = (int) viewport.getWorldHeight();
         int doubleWorldWidth = worldWidth * 2;
         int doubleWorldHeight = worldHeight * 2;
@@ -39,27 +39,27 @@ public class ViewportUtils {
         renderer.begin(ShapeRenderer.ShapeType.Line);
         renderer.setColor(Color.WHITE);
 
-        for (int x = -doubleWorldWidth; x < doubleWorldWidth; x+=cellSize){
-            renderer.line(x,-doubleWorldHeight,x,doubleWorldHeight);
+        for (int x = -doubleWorldWidth; x < doubleWorldWidth; x += cellSize) {
+            renderer.line(x, -doubleWorldHeight, x, doubleWorldHeight);
         }
 
-        for (int y = -doubleWorldHeight; y < doubleWorldHeight; y+=cellSize){
-            renderer.line(-doubleWorldWidth,y,doubleWorldWidth,y);
+        for (int y = -doubleWorldHeight; y < doubleWorldHeight; y += cellSize) {
+            renderer.line(-doubleWorldWidth, y, doubleWorldWidth, y);
         }
 
         renderer.setColor(Color.RED);
-        renderer.line(0,-doubleWorldHeight,0,doubleWorldHeight);
-        renderer.line(-doubleWorldHeight,0,doubleWorldHeight, 0);
+        renderer.line(0, -doubleWorldHeight, 0, doubleWorldHeight);
+        renderer.line(-doubleWorldHeight, 0, doubleWorldHeight, 0);
 
         renderer.setColor(Color.GREEN);
-        renderer.line(0,worldHeight,worldWidth,worldHeight);
-        renderer.line(worldWidth,0,worldWidth,worldHeight);
+        renderer.line(0, worldHeight, worldWidth, worldHeight);
+        renderer.line(worldWidth, 0, worldWidth, worldHeight);
         renderer.end();
         renderer.setColor(color);
     }
 
-    public static void debugPixelPermit(Viewport viewport){
-        if(viewport == null){
+    public static void debugPixelPermit(Viewport viewport) {
+        if (viewport == null) {
             throw new IllegalArgumentException("viewport param is required");
         }
 
@@ -75,6 +75,8 @@ public class ViewportUtils {
 
         log.debug("x PPU = " + xPPU + " yPPU = " + yPPU);
     }
-    private ViewportUtils(){}
+
+    private ViewportUtils() {
+    }
 
 }
