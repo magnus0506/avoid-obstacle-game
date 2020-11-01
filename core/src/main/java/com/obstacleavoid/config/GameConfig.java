@@ -21,9 +21,9 @@ public class GameConfig {
     public static final int LIVES_ON_START = 3;
     public static final float SCORE_RATE = 1f; // score rate
 
-    public static final float EASY_OBSTACLE_SPEED = 0.04f;
-    public static final float MEDIUM_OBSTACLE_SPEED = 0.1f;
-    public static final float HARD_OBSTACLE_SPEED = 0.1f;
+    public static final float EASY_OBSTACLE_SPEED = 0.1f;
+    public static final float MEDIUM_OBSTACLE_SPEED = 0.14f;
+    public static final float HARD_OBSTACLE_SPEED = 0.22f;
 
     public static final float PLAYER_BOUNDS_RADIUS = 0.4f;
     public static final float PLAYER_SIZE = 2 * PLAYER_BOUNDS_RADIUS;

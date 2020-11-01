@@ -2,16 +2,19 @@ package com.obstacleavoid.screen.game;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Logger;
 import com.obstacleavoid.ObstacleAvoidGame;
 import com.obstacleavoid.assets.AssetDescriptors;
+import com.obstacleavoid.screen.menu.MenuScreen;
 import com.obstacleavoid.util.ViewportUtils;
 
 public class GameScreen implements Screen {
-
+    private static final Logger log = new Logger(GameScreen.class.getName(), Logger.DEBUG);
 
     private final ObstacleAvoidGame game;
     private final AssetManager assetManager;
+
     private GameController controller;
     private GameRenderer renderer;
 
@@ -22,21 +25,20 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        assetManager.load(AssetDescriptors.FONT);
-        assetManager.finishLoading();
-
-        controller = new GameController();
-        renderer = new GameRenderer(assetManager, controller);
+        log.debug("show");
+        controller = new GameController(game);
+        renderer = new GameRenderer(game.getBatch(), assetManager, controller);
     }
-
-
 
     @Override
     public void render(float delta) {
         controller.update(delta);
         renderer.render(delta);
-    }
 
+        if (controller.isGameOver()) {
+            game.setScreen(new MenuScreen(game));
+        }
+    }
 
     @Override
     public void resize(int width, int height) {

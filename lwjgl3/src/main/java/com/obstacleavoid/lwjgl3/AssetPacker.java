@@ -7,7 +7,7 @@ public class AssetPacker {
     private static final boolean DRAW_DEBUG_OUTLINE = false;
 
     private static final String RAW_ASSETS_PATH = "lwjgl3/assets-raw";
-    private static final String ASSETS_PATH = "android/assets";
+    private static final String ASSETS_PATH = "assets";
 
     public static void main(String[] args) {
         TexturePacker.Settings settings = new TexturePacker.Settings();
@@ -20,8 +20,10 @@ public class AssetPacker {
         );
 
         TexturePacker.process(settings,
-                RAW_ASSETS_PATH + "/ui",
-                ASSETS_PATH +"/ui",
-                "ui");
+                RAW_ASSETS_PATH + "/skin",
+                ASSETS_PATH + "/ui",
+                "uiskin"
+        );
     }
+
 }

@@ -25,10 +25,6 @@ import com.obstacleavoid.util.debug.DebugCameraController;
 
 public class GameRenderer implements Disposable {
 
-    private static String FONT = "fonts/ui_font_32.fnt";
-    private static final String ATLAS = "gameplay/gameplay.atlas";
-
-
     // -- attributes --
     private OrthographicCamera camera;
     private Viewport viewport;
@@ -38,51 +34,48 @@ public class GameRenderer implements Disposable {
     private Viewport hudViewport;
 
     private SpriteBatch batch;
+    private BitmapFont font;
     private final GlyphLayout layout = new GlyphLayout();
     private DebugCameraController debugCameraController;
-    private GameController controller;
+    private final GameController controller;
 
     private AssetManager assetManager;
     private TextureRegion playerRegion;
     private TextureRegion obstacleRegion;
-    private TextureRegion obstacleHPRegion;
     private TextureRegion backgroundRegion;
-    private BitmapFont font;
-
-
 
 
     // -- constructor --
-    public GameRenderer(AssetManager assetManager, GameController controller) {
+    public GameRenderer(SpriteBatch batch, AssetManager assetManager, GameController controller) {
         this.assetManager = assetManager;
+        this.batch = batch;
         this.controller = controller;
         init();
     }
 
     // -- init --
     private void init() {
-        assetManager = new AssetManager();
         camera = new OrthographicCamera();
-        hudCamera = new OrthographicCamera();
         viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
-        hudViewport = new FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT, hudCamera);
         renderer = new ShapeRenderer();
+
+        hudCamera = new OrthographicCamera();
+        hudViewport = new FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT, hudCamera);
         batch = new SpriteBatch();
+
+
         font = assetManager.get(AssetDescriptors.FONT);
 
-        debugCameraController = new DebugCameraController();
-        debugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y);
+//        debugCameraController = new DebugCameraController();
+//        debugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y);
 
-        assetManager.load(AssetDescriptors.GAMEPLAY);
-//        assetManager.load(AssetDescriptors.FONT);
-        assetManager.load("fonts/oswald-32.fnt", BitmapFont.class);
-        assetManager.finishLoading();
-        TextureAtlas atlas = assetManager.get(ATLAS);
+        TextureAtlas gamePlayAtlas = assetManager.get(AssetDescriptors.GAMEPLAY);
 
 
-        playerRegion = atlas.findRegion(RegionNames.PLAYER);
-        obstacleRegion = atlas.findRegion(RegionNames.OBSTACLE);
-        backgroundRegion = atlas.findRegion(RegionNames.BACKGROUND);
+        playerRegion = gamePlayAtlas.findRegion(RegionNames.PLAYER);
+        obstacleRegion = gamePlayAtlas.findRegion(RegionNames.OBSTACLE);
+        backgroundRegion = gamePlayAtlas.findRegion(RegionNames.BACKGROUND);
+
 
     }
 
@@ -90,8 +83,8 @@ public class GameRenderer implements Disposable {
     public void render(float delta) {
         batch.totalRenderCalls = 0;
 
-        debugCameraController.handleDebugInput(delta);
-        debugCameraController.applyTo(camera);
+//        debugCameraController.handleDebugInput(delta);
+//        debugCameraController.applyTo(camera);
 
         if(Gdx.input.isTouched() && !controller.isGameOver()){
             Vector2 screenTouch = new Vector2(Gdx.input.getX(), Gdx.input.getY());
@@ -99,9 +92,9 @@ public class GameRenderer implements Disposable {
 
             Player player = controller.getPlayer();
             worldTouch.x = MathUtils.clamp(worldTouch.x,
-                    0,
-                    (GameConfig.WORLD_WIDTH - player.getWidth()));
-            player.setX(worldTouch.x);
+                    0 + player.getWidth() / 2f,
+                    (GameConfig.WORLD_WIDTH - player.getWidth() / 2f));
+            player.setX(worldTouch.x - player.getWidth() / 2f);
         }
 
         GdxUtils.clearScreen();
@@ -121,7 +114,6 @@ public class GameRenderer implements Disposable {
     @Override
     public void dispose() {
         renderer.dispose();
-        batch.dispose();
     }
 
     private void renderGameplay(){
@@ -151,6 +143,7 @@ public class GameRenderer implements Disposable {
             );
         }
 
+
         batch.end();
     }
 
@@ -170,8 +163,9 @@ public class GameRenderer implements Disposable {
         layout.setText(font, scoreText);
 
         font.draw(batch, scoreText,
-                GameConfig.HUD_WIDTH - layout.width - 20,
-                GameConfig.HUD_HEIGHT - layout.height);
+                20,
+//                GameConfig.HUD_HEIGHT - layout.height
+        1);
 
         batch.end();
     }
@@ -185,7 +179,7 @@ public class GameRenderer implements Disposable {
 
         renderer.end();
 
-        ViewportUtils.drawGrid(viewport, renderer);
+//        ViewportUtils.drawGrid(viewport, renderer);
     }
 
     private void drawDebug() {

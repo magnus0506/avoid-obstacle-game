@@ -16,7 +16,7 @@ public abstract class GameObjectBase {
     }
 
     public void drawDebug(ShapeRenderer renderer){
-        renderer.circle(bounds.x, bounds.y, bounds.radius,30);
+//        renderer.circle(bounds.x, bounds.y, bounds.radius,30);
     }
 
     public void setPosition(float x, float y){

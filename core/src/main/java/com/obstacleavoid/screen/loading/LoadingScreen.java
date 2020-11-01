@@ -1,24 +1,20 @@
 package com.obstacleavoid.screen.loading;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.BitmapFontLoader;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.obstacleavoid.ObstacleAvoidGame;
 import com.obstacleavoid.assets.AssetDescriptors;
 import com.obstacleavoid.config.GameConfig;
-import com.obstacleavoid.screen.game.GameController;
-import com.obstacleavoid.screen.game.GameRenderer;
-import com.obstacleavoid.screen.game.GameScreen;
+import com.obstacleavoid.screen.menu.MenuScreen;
 import com.obstacleavoid.util.GdxUtils;
 
-public class LoadingScreen extends ScreenAdapter {
+public class LoadingScreen implements Screen {
+    private static final Logger log = new Logger(LoadingScreen.class.getName(), Logger.DEBUG);
 
     // -- constants --
     private static final float PROGRESS_BAR_WIDTH = GameConfig.WIDTH / 2f;
@@ -31,13 +27,10 @@ public class LoadingScreen extends ScreenAdapter {
 
     private float progress;
     private float waitTime = 0.75f;
+    private boolean changeScreen;
 
-    private ObstacleAvoidGame game;
-    private AssetManager assetManager;
-    private GameController controller;
-    private GameRenderer gameRenderer;
-
-    private BitmapFont font;
+    private final ObstacleAvoidGame game;
+    private final AssetManager assetManager;
 
 
     // -- constructor --
@@ -50,17 +43,15 @@ public class LoadingScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+        log.debug("show");
         camera = new OrthographicCamera();
         viewport = new FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT, camera);
         renderer = new ShapeRenderer();
-        font = new BitmapFont(Gdx.files.internal("fonts/oswald-32.fnt"), false);
-        assetManager = new AssetManager();
 
-        assetManager.load("fonts/oswald-32.fnt", BitmapFont.class);
+        assetManager.load(AssetDescriptors.FONT);
         assetManager.load(AssetDescriptors.GAMEPLAY);
-
-
-
+        assetManager.load(AssetDescriptors.UISKIN);
+        assetManager.load(AssetDescriptors.HIT_SOUND);
     }
 
     @Override
@@ -75,38 +66,53 @@ public class LoadingScreen extends ScreenAdapter {
         draw();
 
         renderer.end();
+
+        if (changeScreen) {
+            game.setScreen(new MenuScreen(game));
+        }
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width,height,true);
+        viewport.update(width, height, true);
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
     }
 
 
     @Override
     public void hide() {
+        log.debug("hide");
         dispose();
     }
 
     @Override
     public void dispose() {
+        log.debug("dispose");
         renderer.dispose();
-        assetManager.dispose();
+        renderer = null;
     }
 
     // -- private methods --
 
-    private void update(float delta){
-        waitMillis(100);
+    private void update(float delta) {
 
         progress = assetManager.getProgress();
 
         // -- update returns true when all assets are loaded
-        if(assetManager.update()){
+        if (assetManager.update()) {
             waitTime -= delta;
 
-            if(waitTime <= 0){
-                game.setScreen(new GameScreen(game));
+            if (waitTime <= 0) {
+                changeScreen = true;
             }
         }
     }
@@ -119,11 +125,13 @@ public class LoadingScreen extends ScreenAdapter {
         }
     }
 
-    private void draw(){
+    private void draw() {
+
+        renderer.rect(4, 3, 2, 4);
         float progressBarX = (GameConfig.HUD_WIDTH - PROGRESS_BAR_WIDTH) / 2f;
         float progressBarY = (GameConfig.HUD_HEIGHT - PROGRESS_BAR_HEIGHT) / 2f;
 
-        renderer.rect(progressBarX,progressBarY,
-                progress * PROGRESS_BAR_WIDTH,PROGRESS_BAR_HEIGHT);
+        renderer.rect(progressBarX, progressBarY,
+                progress * PROGRESS_BAR_WIDTH, PROGRESS_BAR_HEIGHT);
     }
 }
