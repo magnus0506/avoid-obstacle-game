@@ -3,6 +3,7 @@ package com.obstacleavoid.screen.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -54,6 +55,7 @@ public class GameScreen extends ScreenAdapter {
     private int lives = GameConfig.LIVES_ON_START;
     private int score;
     private Sound hitSound;
+    private Music themeMusic;
 
     private float startPlayerX = (GameConfig.WORLD_WIDTH - GameConfig.PLAYER_SIZE) / 2f;
     private float startPlayery = GameConfig.PLAYER_SIZE / 2f;
@@ -88,14 +90,15 @@ public class GameScreen extends ScreenAdapter {
 
         uiCamera = new OrthographicCamera();
         uiViewport = new FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT, uiCamera);
-        font = assetManager.get(AssetDescriptors.FONT);
 
         debugCameraController = new DebugCameraController();
         debugCameraController.setStartPosition(GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y);
 
+        font = assetManager.get(AssetDescriptors.FONT);
         hitSound = assetManager.get(AssetDescriptors.HIT_SOUND);
-
+        themeMusic = assetManager.get(AssetDescriptors.THEME);
         TextureAtlas gameplayAtlas = assetManager.get(AssetDescriptors.GAMEPLAY);
+
         TextureRegion playerRegion = gameplayAtlas.findRegion(RegionNames.PLAYER);
         obstacleRegion = gameplayAtlas.findRegion(RegionNames.OBSTACLE);
         backgroundRegion = gameplayAtlas.findRegion(RegionNames.BACKGROUND);
@@ -106,6 +109,9 @@ public class GameScreen extends ScreenAdapter {
         player = new PlayerActor();
         player.setPosition(startPlayerX, startPlayery);
         player.setRegion(playerRegion);
+
+        themeMusic.setLooping(true);
+        themeMusic.play();
 
         stage.addActor(background);
         stage.addActor(player);

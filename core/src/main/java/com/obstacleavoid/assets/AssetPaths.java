@@ -10,6 +10,8 @@ public class  AssetPaths {
 
     public static final String HIT = "sounds/hit.wav";
 
+    public static final String THEME_SONG = "sounds/avoid-obstacle-theme-v3.mp3";
+
     private AssetPaths() {
     }
 }

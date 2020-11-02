@@ -1,6 +1,7 @@
 package com.obstacleavoid.assets;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -19,6 +20,10 @@ public class AssetDescriptors {
 
     public static final AssetDescriptor<Sound> HIT_SOUND =
             new AssetDescriptor<Sound>(AssetPaths.HIT, Sound.class);
+
+    public static final AssetDescriptor<Music> THEME =
+            new AssetDescriptor<Music>(AssetPaths.THEME_SONG, Music.class);
+
     public AssetDescriptors() {
     }
 }

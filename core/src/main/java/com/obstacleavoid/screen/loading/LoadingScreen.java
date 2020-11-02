@@ -52,6 +52,7 @@ public class LoadingScreen implements Screen {
         assetManager.load(AssetDescriptors.GAMEPLAY);
         assetManager.load(AssetDescriptors.UISKIN);
         assetManager.load(AssetDescriptors.HIT_SOUND);
+        assetManager.load(AssetDescriptors.THEME);
     }
 
     @Override
