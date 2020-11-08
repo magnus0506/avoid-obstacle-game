@@ -55,6 +55,7 @@ public class LoadingScreen implements Screen {
         assetManager.load(AssetDescriptors.THEME);
     }
 
+
     @Override
     public void render(float delta) {
         update(delta);

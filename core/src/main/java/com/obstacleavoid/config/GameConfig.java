@@ -16,7 +16,7 @@ public class GameConfig {
     public static final float WORLD_CENTER_Y = WORLD_HEIGHT / 2f; // world units
 
     public static final float MAX_PLAYER_X_SPEED = 0.1f;
-    public static final float OBSTACLE_SPAWN_TIME = 0.25f; // spawn rate of obstacles, every .25 sec
+    public static final float OBSTACLE_SPAWN_TIME = 0.10f; // spawn rate of obstacles, every .25 sec
 
     public static final int LIVES_ON_START = 3;
     public static final float SCORE_RATE = 1f; // score rate
